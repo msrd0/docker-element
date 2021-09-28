@@ -1,0 +1,31 @@
+name: Docker
+on:
+  push:
+    branches: [main]
+
+jobs:
+  docker:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      
+      - name: Build and Push Docker Image
+        run: |
+          image="ghcr.io/msrd0/element"
+          docker pull "$image:cache" || true
+          docker build . \
+            --pull \
+            --target builder \
+            --cache-from "$image:cache" \
+            --tag "$image:cache"
+          docker build . \
+            --pull \
+            --cache-from "$image:cache" \
+            --tag "$image"
+          version="$(docker run --rm "$image" /bin/element version)"
+          docker tag "$image" "$image:$version"
+          
+          docker login -u msrd0 -p "${{ secrets.GHCR_TOKEN }}" ghcr.io
+          docker push "$image"
+          docker push "$image:$version"
+          docker push "$image:cache"

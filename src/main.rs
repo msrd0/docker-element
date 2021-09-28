@@ -18,6 +18,7 @@ fn main() {
 	match cmd {
 		"healthcheck" => healthcheck::run(),
 		"server" => server::start(),
+		"version" => println!("{}", env!("ELEMENT_VERSION")),
 		_ => panic!("Unknown command")
 	};
 }
