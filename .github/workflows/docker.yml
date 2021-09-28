@@ -26,6 +26,6 @@ jobs:
           docker tag "$image" "$image:$version"
           
           docker login -u msrd0 -p "${{ secrets.GHCR_TOKEN }}" ghcr.io
-          docker push "$image"
-          docker push "$image:$version"
           docker push "$image:cache"
+          docker push "$image:$version"
+          docker push "$image"
