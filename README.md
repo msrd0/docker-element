@@ -1,6 +1,6 @@
 # docker-element [![Rust](https://github.com/msrd0/docker-element/actions/workflows/rust.yml/badge.svg)](https://github.com/msrd0/docker-element/actions/workflows/rust.yml) [![Rust](https://github.com/msrd0/docker-element/actions/workflows/rust.yml/badge.svg)](https://github.com/msrd0/docker-element/actions/workflows/rust.yml)
 
-Docker Image: [`ghcr.io/msrd0/docker-element`](https://github.com/users/msrd0/packages/container/package/element)
+Docker Image: [`ghcr.io/msrd0/element`](https://github.com/users/msrd0/packages/container/package/element)
 
 This docker image contains [Element](https://github.com/vector-im/element-web), a matrix client, served by a custom
 server written in Rust that creates a config based on environment variables, and allows the docker image to be created
