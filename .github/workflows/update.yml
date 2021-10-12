@@ -1,0 +1,53 @@
+name: Update
+
+on:
+  schedule:
+    - cron: '45 20 * * *'
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: dtolnay/rust-toolchain@stable
+      
+      - name: Get Element Version
+        id: element
+        run: |
+          wget --show-progress -qO releases.json https://api.github.com/repos/vector-im/element-web/releases
+          latest=0.0.0
+          for version in $(jq -r '.[].tag_name' releases.json | sed -E 's,^v,,' | grep --invert-match -- -rc); do
+            dpkg --compare-versions $version gt $latest && latest=$version
+          done
+          echo "::set-output name=version::$latest"
+      
+      - name: Update Element
+        run: |
+          sed -E -i Dockerfile \
+              -e "s|^ENV ELEMENT_VERSION.*$|ENV ELEMENT_VERSION ${{steps.element.outputs.version}}|"
+      
+      - name: Update Crates
+        run: cargo update
+      
+      - name: Prepare Commit Message
+        id: commit
+        run: |
+          element=
+          git diff --quiet --exit-code Dockerfile || element=t
+          cargo=
+          git diff --quiet --exit-code Cargo.lock || cargo=t
+          git add Dockerfile Cargo.lock || true
+          
+          if [ "$element" == t ] && [ "$cargo" == t ]; then
+            echo "::set-output name=msg::Update Element to ${{steps.element.outputs.version}} and run cargo update"
+          elif [ "$element" == t ]; then
+            echo "::set-output name=msg::Update Element to ${{steps.element.outputs.version}}"
+          elif [ "$cargo" == t ]; then
+            echo "::set-output name=msg::Run cargo update"
+          else
+            echo "::set-output name=msg::Oh No! CI created an empty commit!"
+          fi
+      
+      - uses: stefanzweifel/git-auto-commit-action@v4
+        with:
+          commit_message: "${{steps.commit.outputs.msg}}"
