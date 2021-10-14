@@ -63,7 +63,7 @@
         "content_type": "application/octet-stream",
         "state": "uploaded",
         "size": 15333289,
-        "download_count": 375,
+        "download_count": 477,
         "created_at": "2021-10-12T08:02:50Z",
         "updated_at": "2021-10-12T08:03:12Z",
         "browser_download_url": "https://github.com/vector-im/element-web/releases/download/v1.9.2/element-v1.9.2.tar.gz"
@@ -97,7 +97,7 @@
         "content_type": "application/octet-stream",
         "state": "uploaded",
         "size": 858,
-        "download_count": 72,
+        "download_count": 80,
         "created_at": "2021-10-12T08:03:12Z",
         "updated_at": "2021-10-12T08:03:12Z",
         "browser_download_url": "https://github.com/vector-im/element-web/releases/download/v1.9.2/element-v1.9.2.tar.gz.asc"
@@ -217,7 +217,7 @@
         "content_type": "application/octet-stream",
         "state": "uploaded",
         "size": 15331316,
-        "download_count": 264,
+        "download_count": 266,
         "created_at": "2021-10-11T11:14:10Z",
         "updated_at": "2021-10-11T11:14:32Z",
         "browser_download_url": "https://github.com/vector-im/element-web/releases/download/v1.9.1/element-v1.9.1.tar.gz"
@@ -435,7 +435,19 @@
     ],
     "tarball_url": "https://api.github.com/repos/vector-im/element-web/tarball/v1.9.1-rc.2",
     "zipball_url": "https://api.github.com/repos/vector-im/element-web/zipball/v1.9.1-rc.2",
-    "body": "## 🐛 Bug Fixes\n* [Release] Fix space hierarchy pagination ([\\#6910](https://github.com/matrix-org/matrix-react-sdk/pull/6910))."
+    "body": "## 🐛 Bug Fixes\n* [Release] Fix space hierarchy pagination ([\\#6910](https://github.com/matrix-org/matrix-react-sdk/pull/6910)).",
+    "reactions": {
+      "url": "https://api.github.com/repos/vector-im/element-web/releases/51015511/reactions",
+      "total_count": 1,
+      "+1": 1,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    }
   },
   {
     "url": "https://api.github.com/repos/vector-im/element-web/releases/50733766",
@@ -655,7 +667,7 @@
         "content_type": "application/octet-stream",
         "state": "uploaded",
         "size": 15631650,
-        "download_count": 1399,
+        "download_count": 1404,
         "created_at": "2021-09-27T14:01:18Z",
         "updated_at": "2021-09-27T14:02:01Z",
         "browser_download_url": "https://github.com/vector-im/element-web/releases/download/v1.9.0/element-v1.9.0.tar.gz"
@@ -689,7 +701,7 @@
         "content_type": "application/octet-stream",
         "state": "uploaded",
         "size": 858,
-        "download_count": 235,
+        "download_count": 237,
         "created_at": "2021-09-27T14:02:01Z",
         "updated_at": "2021-09-27T14:02:02Z",
         "browser_download_url": "https://github.com/vector-im/element-web/releases/download/v1.9.0/element-v1.9.0.tar.gz.asc"
@@ -1093,7 +1105,7 @@
         "content_type": "application/octet-stream",
         "state": "uploaded",
         "size": 15979411,
-        "download_count": 1638,
+        "download_count": 1646,
         "created_at": "2021-09-14T15:10:04Z",
         "updated_at": "2021-09-14T15:10:11Z",
         "browser_download_url": "https://github.com/vector-im/element-web/releases/download/v1.8.5/element-v1.8.5.tar.gz"
@@ -2739,7 +2751,7 @@
         "content_type": "application/octet-stream",
         "state": "uploaded",
         "size": 15635182,
-        "download_count": 1543,
+        "download_count": 1545,
         "created_at": "2021-08-02T12:19:53Z",
         "updated_at": "2021-08-02T12:20:00Z",
         "browser_download_url": "https://github.com/vector-im/element-web/releases/download/v1.7.34/element-v1.7.34.tar.gz"
@@ -3331,7 +3343,7 @@
         "content_type": "application/octet-stream",
         "state": "uploaded",
         "size": 15365521,
-        "download_count": 1717,
+        "download_count": 1718,
         "created_at": "2021-07-05T15:37:23Z",
         "updated_at": "2021-07-05T15:37:29Z",
         "browser_download_url": "https://github.com/vector-im/element-web/releases/download/v1.7.32/element-v1.7.32.tar.gz"
@@ -3615,7 +3627,7 @@
         "content_type": "application/octet-stream",
         "state": "uploaded",
         "size": 15340308,
-        "download_count": 1477,
+        "download_count": 1479,
         "created_at": "2021-06-21T16:04:54Z",
         "updated_at": "2021-06-21T16:04:56Z",
         "browser_download_url": "https://github.com/vector-im/element-web/releases/download/v1.7.31/element-v1.7.31.tar.gz"
