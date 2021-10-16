@@ -8,7 +8,16 @@ jobs:
   update:
     runs-on: ubuntu-latest
     steps:
+      - uses: tibdex/github-app-token@v1
+        id: token
+        with:
+          app_id: ${{secrets.APP_ID}}
+          private_key: ${{secrets.APP_PRIVKEY}}
+      
       - uses: actions/checkout@v2
+        with:
+          token: ${{steps.token.outputs.token}}
+      
       - uses: dtolnay/rust-toolchain@stable
       
       - name: Get Element Version
@@ -20,6 +29,7 @@ jobs:
             dpkg --compare-versions $version gt $latest && latest=$version
           done
           echo "::set-output name=version::$latest"
+          rm releases.json
       
       - name: Update Element
         run: |
@@ -36,7 +46,6 @@ jobs:
           git diff --quiet --exit-code Dockerfile || element=t
           cargo=
           git diff --quiet --exit-code Cargo.lock || cargo=t
-          git add Dockerfile Cargo.lock || true
           
           if [ "$element" == t ] && [ "$cargo" == t ]; then
             echo "::set-output name=msg::Update Element to ${{steps.element.outputs.version}} and run cargo update"
