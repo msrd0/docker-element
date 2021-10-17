@@ -60,3 +60,6 @@ jobs:
       - uses: stefanzweifel/git-auto-commit-action@v4
         with:
           commit_message: "${{steps.commit.outputs.msg}}"
+          commit_user_name: "docker-element-bot[bot]"
+          commit_user_email: "actions@github.com"
+          commit_author: "docker-element-bot[bot] <actions@github.com>"
