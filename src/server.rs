@@ -2,9 +2,9 @@ use gotham::{
 	handler::FileOptions,
 	helpers::http::response::{create_empty_response, create_response},
 	hyper::StatusCode,
+	mime::APPLICATION_JSON,
 	router::builder::{build_simple_router, DefineSingleRoute, DrawRoutes}
 };
-use mime::APPLICATION_JSON;
 use serde::Serialize;
 use std::env;
 
@@ -98,5 +98,6 @@ pub fn start() {
 				.get("/*")
 				.to_dir(FileOptions::new(DIR).with_cache_control("public").with_gzip(true).build());
 		})
-	);
+	)
+	.expect("Failed to start server");
 }
