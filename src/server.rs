@@ -12,12 +12,31 @@ use std::env;
 const DIR: &str = "/opt/element";
 
 #[derive(Serialize)]
+struct BaseUrl {
+	base_url: String
+}
+
+impl BaseUrl {
+	fn new(base_url: String) -> Self {
+		Self { base_url }
+	}
+}
+
+#[derive(Serialize)]
+struct DefaultServerConfig {
+	#[serde(rename = "m.homeserver")]
+	homeserver: BaseUrl,
+	#[serde(rename = "m.identity_server")]
+	identity_server: BaseUrl
+}
+
+#[derive(Serialize)]
 struct Config {
-	// homeserver/integrationserver urls
-	default_hs_url: String,
-	default_is_url: String,
+	// homeserver/integrationserver/... urls
+	default_server_config: DefaultServerConfig,
 	integrations_ui_url: String,
 	integrations_rest_url: String,
+	map_style_url: String,
 
 	// branding
 	brand: String,
@@ -53,10 +72,17 @@ static mut CONFIG: String = String::new();
 pub fn start() {
 	let hs = env("DEFAULT_HS_URL", "https://matrix.org");
 	let config = serde_json::to_string(&Config {
-		default_hs_url: hs.clone(),
-		default_is_url: env("DEFAULT_IS_URL", "https://vector.im"),
+		default_server_config: DefaultServerConfig {
+			homeserver: BaseUrl::new(hs.clone()),
+			identity_server: BaseUrl::new(env("DEFAULT_IS_URL", "https://vector.im"))
+		},
 		integrations_ui_url: env("INTEGRATIONS_UI_URL", "https://scalar.vector.im"),
 		integrations_rest_url: env("INTEGRATIONS_REST_URL", "https://scalar.vector.im/api"),
+		// taken from https://app.element.io/config.json
+		map_style_url: env(
+			"MAP_STYLE_URL",
+			"https://api.maptiler.com/maps/streets/style.json?key=fU3vlMsMn4Jb6dnEIFsx"
+		),
 
 		brand: env("BRAND", "Element"),
 
@@ -67,7 +93,12 @@ pub fn start() {
 		default_country_code: env("DEFAULT_COUNTRY_CODE", "DE"),
 
 		room_directory: RoomDirectory {
-			servers: vec![hs, "https://matrix.org".to_owned()]
+			servers: vec![
+				hs,
+				"https://matrix.org".to_owned(),
+				"https://gitter.im".to_owned(),
+				"https://libera.chat".to_owned(),
+			]
 		}
 	})
 	.unwrap();
