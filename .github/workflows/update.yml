@@ -3,11 +3,14 @@ name: Update
 on:
   schedule:
     - cron: '30 12 * * *'
+  workflow_dispatch:
 
 jobs:
   update:
     runs-on: ubuntu-latest
     steps:
+      - run: curl -v https://api.github.com/rate_limit
+      
       - uses: tibdex/github-app-token@v1
         id: token
         with:
