@@ -7,7 +7,7 @@ ENV TARGET x86_64-unknown-linux-musl
 RUN rustup target add "$TARGET"
 
 # Update this version when a new version of element is released
-ENV ELEMENT_VERSION 1.11.30
+ENV ELEMENT_VERSION 1.11.31
 
 RUN mkdir /src
 WORKDIR /src
