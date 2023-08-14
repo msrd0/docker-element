@@ -43,6 +43,12 @@ jobs:
           name: "${{ matrix.target }}"
           path: |
             target/${{ matrix.target }}/release/crab-hole
+      - name: 'Upload Artifact'
+        uses: actions/upload-artifact@v3
+        with:
+          name: "element"
+          path: |
+            opt/element/
 
 
   download-element:
