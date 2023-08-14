@@ -54,23 +54,25 @@ jobs:
       - uses: actions/download-artifact@v3
         with:
           path: github_artifacts
+      - name: Docker meta
+        id: meta
+        uses: docker/metadata-action@v4
+        with:
+          images: ${{ format('ghcr.io/{0}/element', github.GITHUB_REPOSITORY_OWNER) }}
+          tags: |
+            type=raw,value=latest
+            type=raw,value=1.11.38
+      - name: Login to GitHub Container Registry
+        uses: docker/login-action@v2
+        with:
+          registry: ghcr.io
+          username: ${{ github.repository_owner }}
+          password: ${{ inputs.ghcr_password }}
       - name: Build and Push Docker Image
-        run: |
-          image="ghcr.io/msrd0/element"
-          docker pull "$image:cache" || true
-          docker build . \
-            --pull \
-            --target builder \
-            --cache-from "$image:cache" \
-            --tag "$image:cache"
-          docker build . \
-            --pull \
-            --cache-from "$image:cache" \
-            --tag "$image"
-          version="$(docker run --rm "$image" /bin/element version)"
-          docker tag "$image" "$image:$version"
-          
-          docker login -u msrd0 -p "${{secrets.GITHUB_TOKEN}}" ghcr.io
-          docker push "$image:cache"
-          docker push "$image:$version"
-          docker push "$image"
+        uses: docker/build-push-action@v3
+        with:
+          context: .
+          push: ${{ github.event_name != 'pull_request' }}
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}}
+          platforms: ${{ inputs.platforms }}
