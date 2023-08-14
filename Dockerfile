@@ -1,10 +1,24 @@
-FROM rust:slim AS builder
+# syntax=docker/dockerfile:1.3
+
+FROM --platform=$BUILDPLATFORM rust:slim-bookworm AS builder
 SHELL ["/bin/bash", "-uo", "pipefail", "-c"]
 
-RUN cargo install oxipng --locked
+# add clang and mold for cross-linking support. should also help with build time.
+RUN apt-get -y update \
+ && apt-get -y install clang mold
+COPY .cargo/config.toml ~/.cargo/config.toml
 
-ENV TARGET x86_64-unknown-linux-musl
-RUN rustup target add "$TARGET"
+# install oxipng for the build architecture - we will only run this inside this container
+RUN cargo install oxipng -v --locked
+
+# add the rust target for the target architecture
+ARG TARGETPLATFORM
+RUN if   [ "$TARGETPLATFORM" == "linux/amd64"  ]; then echo "x86_64-unknown-linux-musl" >/.target; \
+    elif [ "$TARGETPLATFORM" == "linux/arm64"  ]; then echo "aarch64-unknown-linux-musl" >/.target; \
+    elif [ "$TARGETPLATFORM" == "linux/arm/v7" ]; then echo "armv7-unknown-linux-musleabihf" >/.target; \
+    else echo "Unknown architecture $TARGETPLATFORM"; exit 1; \
+    fi
+RUN rustup target add "$(cat /.target)"
 
 # Update this version when a new version of element is released
 ENV ELEMENT_VERSION 1.11.38
@@ -12,9 +26,8 @@ ENV ELEMENT_VERSION 1.11.38
 RUN mkdir /src
 WORKDIR /src
 COPY . .
-RUN cargo build --release --locked --target "$TARGET" \
- && mv "target/$TARGET/release/element" . \
- && strip element
+RUN cargo build -v --release --locked --target "$(cat /.target)" \
+ && mv "target/$(cat /.target)/release/element" .
 
 WORKDIR /
 COPY E95B7699E80B68A9EAD9A19A2BAA9B8552BD9047.key .
@@ -32,7 +45,7 @@ RUN apt-get -y update \
 
 ########################################################################################################################
 
-FROM scratch
+FROM --platform=$TARGETPLATFORM scratch
 
 COPY --from=builder /src/element /bin/element
 COPY --from=builder /opt/element /opt/element
