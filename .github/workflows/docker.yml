@@ -42,13 +42,7 @@ jobs:
         with:
           name: "${{ matrix.target }}"
           path: |
-            target/${{ matrix.target }}/release/crab-hole
-      - name: 'Upload Artifact'
-        uses: actions/upload-artifact@v3
-        with:
-          name: "element"
-          path: |
-            opt/element/
+            target/${{ matrix.target }}/release/element
 
 
   download-element:
@@ -73,6 +67,12 @@ jobs:
           find /opt/element -name '*.html' -or -name '*.js' -or -name '*.css' -or -name '*.html' -or -name '*.svg' -or -name '*.json' | while read file; do gzip -k9 "$file"; done
         env: 
           ELEMENT_VERSION: 1.11.38
+      - name: 'Upload Artifact'
+        uses: actions/upload-artifact@v3
+        with:
+          name: "element"
+          path: |
+            opt/element/
   docker:
     runs-on: ubuntu-latest
     needs: [build, download-element]
@@ -85,7 +85,7 @@ jobs:
         id: meta
         uses: docker/metadata-action@v4
         with:
-          images: ${{ format('ghcr.io/{0}/element', github.GITHUB_REPOSITORY_OWNER) }}
+          images: ${{ format('ghcr.io/{0}/element', github.repository_owner) }}
           tags: |
             type=raw,value=latest
             type=raw,value=1.11.38
