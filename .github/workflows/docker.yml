@@ -47,7 +47,6 @@ jobs:
 
   download-element:
     runs-on: ubuntu-latest
-    needs: [build]
     steps: 
       - run: |
           #set -eo pipefail
@@ -63,7 +62,7 @@ jobs:
  
   docker:
     runs-on: ubuntu-latest
-    needs: [build]
+    needs: [build, download-element]
     steps:
       - uses: actions/checkout@v3
       - uses: actions/download-artifact@v3
