@@ -8,7 +8,6 @@ RUN set -eux; \
     if [[ $TARGETPLATFORM == "linux/arm/v7" ]]; then target="armv7-unknown-linux-musleabihf"; fi; \
     if [[ $TARGETPLATFORM == "linux/arm64" ]];  then target="aarch64-unknown-linux-musl"; fi; \
     cp /github_artifacts/$target/element /element
-RUN tree /github_artifacts/element
 
 ########################################################################################################################
 
