@@ -14,8 +14,8 @@ RUN tee /github_artifacts/element
 
 FROM scratch
 
-COPY --from=builder /src/element /bin/element
-COPY --from=builder /opt/element /opt/element
+COPY --from=selecter /src/element /bin/element
+COPY  github_artifacts/element /opt/element
 
 EXPOSE 80
 HEALTHCHECK CMD ["/bin/element", "healthcheck"]
