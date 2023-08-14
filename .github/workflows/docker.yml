@@ -81,6 +81,11 @@ jobs:
       - uses: actions/download-artifact@v3
         with:
           path: github_artifacts
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v2
+      - name: Set up Docker Buildx
+        id: buildx
+        uses: docker/setup-buildx-action@v2
       - name: Docker meta
         id: meta
         uses: docker/metadata-action@v4
