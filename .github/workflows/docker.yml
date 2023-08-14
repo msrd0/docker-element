@@ -49,7 +49,7 @@ jobs:
     runs-on: ubuntu-latest
     steps: 
       - run: |
-          set -eo
+          set pipefail
           wget -qO element.tar.gz "https://github.com/vector-im/element-web/releases/download/v$ELEMENT_VERSION/element-v$ELEMENT_VERSION.tar.gz"
           wget -qO element.tar.gz.asc "https://github.com/vector-im/element-web/releases/download/v$ELEMENT_VERSION/element-v$ELEMENT_VERSION.tar.gz.asc"
           gpg --batch --import E95B7699E80B68A9EAD9A19A2BAA9B8552BD9047.key
