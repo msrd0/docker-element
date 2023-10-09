@@ -60,7 +60,7 @@ jobs:
             echo "::set-output name=msg::Oh No! CI created an empty commit!"
           fi
       
-      - uses: stefanzweifel/git-auto-commit-action@v4
+      - uses: stefanzweifel/git-auto-commit-action@v5
         with:
           commit_message: "${{steps.commit.outputs.msg}}"
           commit_user_name: "docker-element-bot[bot]"
